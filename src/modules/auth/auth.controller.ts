@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { UpdateAuthDto } from './dto/update-auth.dto';
@@ -27,10 +27,13 @@ export class AuthController {
     return this.authService.findAll()
   }
 
-  @Patch("reset-password")
-  @Roles(roleType.client)
+  @Patch("resetpass")
+  @Roles(roleType.client,roleType.admin)
   @UseGuards(AtGuard, RolesGuard)
-  updatePassword(@Body() body) {
-    return this.authService.updatePassword(body)
+  // @UseGuards(AtGuard)
+  updatePassword(@Req() req:any, @Body() body:UpdateAuthDto) {
+    const user=req.user;
+    console.log(user)
+    return this.authService.updatePassword(user.id,body)
   }
 }

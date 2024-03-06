@@ -69,7 +69,19 @@ export class AuthService {
     return users
   }
 
-  async updatePassword(body: CreateAuthDto) {}
+  async updatePassword(id:string,body: UpdateAuthDto) {
+    const user=await this.userRepository.findOne({where:{id}});
+ console.log(user)
+    if(!user){
+      throw new ForbiddenException('user not found');
+    }
+    user.password=body.password;
+
+    this.userRepository.save(user);
+    return {
+      msg:'password updated'
+    }
+  }
 
   // To generate JWT token
   async signToken(

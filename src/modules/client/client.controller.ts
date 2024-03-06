@@ -43,7 +43,7 @@ export class ClientController {
   }
 
   @Patch(':id')
-  @Roles(role.admin,role.client)
+  @Roles(role.admin)
   @UseGuards(AtGuard, RolesGuard)
   update(@Param('id') id: string, @Body() updateClientDto: UpdateClientDto) {
     return this.clientService.update(id, updateClientDto);

@@ -5,6 +5,7 @@ export type userType = {
     exp: string
 }
 
+
 export enum roleType {
     client = 'client',
     admin = 'admin'
